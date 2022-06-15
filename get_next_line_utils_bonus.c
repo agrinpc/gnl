@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 15:37:09 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/09 12:24:53 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/15 15:12:54 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	write_num(char *tmp, int num)
 	tmp[i + 1] = -1;
 }
 
-void	ft_strtcpy(char *dest, char *src, int ints[4], int mod)
+void	ft_strtcpy(char *dest, char *src, int ints[3], int mod)
 {
 	int	c;
 
