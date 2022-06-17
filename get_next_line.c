@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 15:24:39 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:35:46 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,12 @@ char	*get_next_line(int fd)
 	if (fd < 0 || read(fd, 0, 0) < 0 || !initialize(strs, ints, cur))
 		return (NULL);
 	if (!tmp)
+	{
 		tmp = malloc(NUM_BUF + BUFFER_SIZE);
+		if (!tmp)
+			return (free_res(strs[RES_STR]));
+		ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
+	}
 ;	while (ints[NL_IND] == -1)
 	{
 		ints[BYTES_READ] = read_num(tmp);
