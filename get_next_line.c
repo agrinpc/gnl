@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 15:20:38 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:24:39 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,15 @@ int main()
 {
 	char *s;
 	int fd;
+	
 	fd = open("test", O_RDONLY);
-	int i;
-
-	i = 0;
 	s = "";
 	sleep(2);
 	while (s)
 	{
 		s = get_next_line(fd);
-		printf("%s\n", s);
-		if (!i) {
-			i++;
-
-		}
+		// printf("%s\n", s);
+		free(s);
 	}
 	return (0);
 }
