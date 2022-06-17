@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 16:19:30 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:34:15 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	get_res(char *strs[2],
 	}
 }
 
-static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char **tmp)
+static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE])
 {
 	ints[NL_IND] = -1;
 	ints[BYTES_READ] = 0;
@@ -48,16 +48,6 @@ static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char **
 	strs[RES_STR] = malloc(1);
 	if (!strs[RES_STR])
 		return (0);
-	if (!tmp)
-	{
-		tmp = malloc(NUM_BUF + BUFFER_SIZE);
-		if (!tmp)
-		{
-			free(strs[RES_STR]);
-			return (0);
-		}
-		ret_nl_make_zero(*tmp, NUM_BUF + BUFFER_SIZE, 1);
-	}
 	strs[RES_STR][0] = 0;
 	strs[CUR_STR] = cur;
 	return (1);
@@ -65,9 +55,29 @@ static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char **
 
 static char	*free_res(char *str)
 {
-	free(str); 
+	free(str);
 	str = NULL;
 	return (NULL);
+}
+
+char	*gnl_loop(char *strs[2], int ints[3], char **tmp, int fd)
+{
+	while (ints[NL_IND] == -1)
+	{
+		ints[BYTES_READ] = read_num(*tmp);
+		if (ints[BYTES_READ] > 0)
+		{
+			ft_strtcpy(strs[CUR_STR], *tmp, ints, 0);
+			ret_nl_make_zero(*tmp, NUM_BUF + BUFFER_SIZE, 1);
+		}
+		else
+			ints[BYTES_READ] = read(fd, strs[CUR_STR], BUFFER_SIZE);
+		if (ints[BYTES_READ] < 0)
+			return (free_res(strs[RES_STR]));
+		else
+			get_res(strs, &(*tmp), ints);
+	}
+	return (strs[RES_STR]);
 }
 
 char	*get_next_line(int fd)
@@ -77,24 +87,19 @@ char	*get_next_line(int fd)
 	char		cur[BUFFER_SIZE];
 	char		*strs[2];
 
-	if (fd < 0 || read(fd, 0, 0) < 0 || !initialize(strs, ints, cur, &tmp))
+	if (fd < 0 || read(fd, 0, 0) < 0 || !initialize(strs, ints, cur))
 		return (NULL);
-;	while (ints[NL_IND] == -1)
+	if (!tmp)
 	{
-		ints[BYTES_READ] = read_num(tmp);
-		if (ints[BYTES_READ] > 0)
+		tmp = malloc(NUM_BUF + BUFFER_SIZE);
+		if (!tmp)
 		{
-			ft_strtcpy(cur, tmp, ints, 0);
-			ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
+			free(strs[RES_STR]);
+			return (NULL);
 		}
-		else
-			ints[BYTES_READ] = read(fd, cur, BUFFER_SIZE);
-		if (ints[BYTES_READ] < 0)
-			return (free_res(strs[RES_STR]));
-		else
-			get_res(strs, &tmp, ints);
+		ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
 	}
-	return (strs[RES_STR]);
+	return (gnl_loop(strs, ints, &tmp, fd));
 }
 
 int main()
