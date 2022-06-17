@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 15:39:58 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:41:06 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ static void	get_res(char *strs[2],
 	}
 }
 
+static char	*free_res(char *str)
+{
+	free(str); 
+	str = NULL;
+	return (NULL);
+}
+
 static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char *tmp)
 {
 	ints[NL_IND] = -1;
@@ -58,13 +65,6 @@ static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char *t
 	strs[RES_STR][0] = 0;
 	strs[CUR_STR] = cur;
 	return (1);
-}
-
-static char	*free_res(char *str)
-{
-	free(str); 
-	str = NULL;
-	return (NULL);
 }
 
 char	*get_next_line(int fd)
