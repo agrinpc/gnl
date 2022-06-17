@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 15:41:06 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:42:28 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char *t
 	{
 		tmp = malloc(NUM_BUF + BUFFER_SIZE);
 		if (!tmp)
-			return (free_res(strs[RES_STR]));
+		{
+			free(strs[RES_STR]);
+			return (0);
+		}
 		ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
 	}
 	strs[RES_STR][0] = 0;
