@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 16:34:15 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:59:48 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static void	get_res(char *strs[2],
 			write_num(*tmp, ints[BYTES_READ] - ints[NL_IND] - 1);
 			ints[BYTES_READ] = ints[NL_IND] + 1;
 		}
-		strs[RES_STR] = ft_strjoin(strs[RES_STR], strs[CUR_STR], ints[RES_SIZE], ints[BYTES_READ]);
+		strs[RES_STR] = ft_strjoin(strs[RES_STR],
+				strs[CUR_STR], ints[RES_SIZE], ints[BYTES_READ]);
 		ints[RES_SIZE] += ints[BYTES_READ];
 	}
 }
@@ -100,21 +101,4 @@ char	*get_next_line(int fd)
 		ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
 	}
 	return (gnl_loop(strs, ints, &tmp, fd));
-}
-
-int main()
-{
-	char *s;
-	int fd;
-	
-	fd = open("test", O_RDONLY);
-	s = "";
-	sleep(2);
-	while (s)
-	{
-		s = get_next_line(fd);
-		// printf("%s\n", s);
-		free(s);
-	}
-	return (0);
 }
