@@ -6,7 +6,7 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:31:14 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/17 16:12:44 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:18:08 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	get_res(char *strs[2],
 	}
 }
 
-static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE])
+static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE], char **tmp)
 {
 	ints[NL_IND] = -1;
 	ints[BYTES_READ] = 0;
@@ -48,6 +48,16 @@ static int	initialize(char *strs[2], int ints[3], char cur[BUFFER_SIZE])
 	strs[RES_STR] = malloc(1);
 	if (!strs[RES_STR])
 		return (0);
+	if (!tmp)
+	{
+		tmp = malloc(NUM_BUF + BUFFER_SIZE);
+		if (!tmp)
+		{
+			free(strs[RES_STR]);
+			return (0);
+		}
+		ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
+	}
 	strs[RES_STR][0] = 0;
 	strs[CUR_STR] = cur;
 	return (1);
@@ -67,15 +77,8 @@ char	*get_next_line(int fd)
 	char		cur[BUFFER_SIZE];
 	char		*strs[2];
 
-	if (fd < 0 || read(fd, 0, 0) < 0 || !initialize(strs, ints, cur))
+	if (fd < 0 || read(fd, 0, 0) < 0 || !initialize(strs, ints, cur, &tmp))
 		return (NULL);
-	if (!tmp)
-	{
-		tmp = malloc(NUM_BUF + BUFFER_SIZE);
-		if (!tmp)
-			return (free_res(strs[RES_STR]));
-		ret_nl_make_zero(tmp, NUM_BUF + BUFFER_SIZE, 1);
-	}
 ;	while (ints[NL_IND] == -1)
 	{
 		ints[BYTES_READ] = read_num(tmp);
