@@ -6,12 +6,15 @@
 /*   By: miahmadi <miahmadi@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:28:15 by miahmadi          #+#    #+#             */
-/*   Updated: 2022/06/14 16:51:19 by miahmadi         ###   ########.fr       */
+/*   Updated: 2022/06/20 13:44:28 by miahmadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 # define NUM_BUF 14
 # define OPEN_MAX 10240
 # include <unistd.h>
